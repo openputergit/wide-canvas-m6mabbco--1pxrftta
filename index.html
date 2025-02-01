@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CardPerks - Discover Your Card Benefits</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .card-input::-webkit-outer-spin-button,
+        .card-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .card-input {
+            -moz-appearance: textfield;
+        }
+        .loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .loading.active {
+            display: flex;
+        }
+        .spinner {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Loading Animation -->
+    <div class="loading" id="loadingOverlay">
+        <div class="flex flex-col items-center">
+            <div class="spinner text-4xl text-blue-600 mb-4">
+                <i class="bi bi-arrow-repeat"></i>
+            </div>
+            <p class="text-gray-700">Processing...</p>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <i class="bi bi-credit-card text-blue-600 text-3xl mr-2"></i>
+                <h1 class="text-xl font-bold text-gray-800">CardPerks</h1>
+            </div>
+            <div>
+                <button id="loginBtn" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300 mr-2">Login</button>
+                <button id="signupBtn" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition duration-300">Sign Up</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Card Input Section -->
+        <section class="max-w-2xl mx-auto bg-white rounded-xl shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-6">Discover Your Card Benefits</h2>
+            <form id="cardForm" class="space-y-4">
+                <div>
+                    <label class="block text-gray-700 mb-2">Card Number (First 6 digits)</label>
+                    <input type="number" id="cardNumber" class="card-input w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" maxlength="6" required>
+                </div>
+                <div>
+                    <label class="block text-gray-700 mb-2">Mobile Number</label>
+                    <input type="tel" id="mobileNumber" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition duration-300">
+                    Find Offers
+                </button>
+            </form>
+        </section>
+
+        <!-- Offers Section -->
+        <section id="offersSection" class="hidden">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Available Offers</h3>
+            <div class="mb-6 flex flex-wrap gap-4">
+                <select id="categoryFilter" class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="">All Categories</option>
+                    <option value="dining">Dining</option>
+                    <option value="shopping">Shopping</option>
+                    <option value="travel">Travel</option>
+                    <option value="entertainment">Entertainment</option>
+                </select>
+                <input type="text" id="searchOffers" placeholder="Search offers..." class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div id="offersGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Offers will be dynamically inserted here -->
+            </div>
+        </section>
+
+        <!-- Advertisements Section -->
+        <section class="my-8">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Featured Banks</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <div class="bg-white p-4 rounded-lg shadow-md">
+                    <h4 class="font-semibold text-lg">Bank A</h4>
+                    <p class="text-gray-600">Special offers for cardholders.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-md">
+                    <h4 class="font-semibold text-lg">Bank B</h4>
+                    <p class="text-gray-600">Exclusive privileges for your card type.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-md">
+                    <h4 class="font-semibold text-lg">Bank C</h4>
+                    <p class="text-gray-600">Get more with your credit card.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white mt-12">
+        <div class="container mx-auto px-4 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">About CardPerks</h4>
+                    <p class="text-gray-400">Discover and maximize your card benefits with our simple and secure platform.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white">How it Works</a></li>
+                        <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact Us</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><i class="bi bi-envelope mr-2"></i>support@cardperks.com</li>
+                        <li><i class="bi bi-telephone mr-2"></i>1-800-CARDPERKS</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sample offers data
+        const sampleOffers = [
+            {
+                id: 1,
+                category: 'dining',
+                title: '20% Off at Premium Restaurants',
+                description: 'Get 20% off at participating premium restaurants nationwide',
+                validUntil: '2024-02-28',
+                merchant: 'Various Restaurants'
+            },
+            {
+                id: 2,
+                category: 'shopping',
+                title: '10% Cashback on Online Shopping',
+                description: 'Earn 10% cashback on all online purchases',
+                validUntil: '2024-03-15',
+                merchant: 'Major E-commerce Sites'
+            },
+            {
+                id: 3,
+                category: 'travel',
+                title: 'Free Airport Lounge Access',
+                description: 'Complimentary access to airport lounges worldwide',
+                validUntil: '2024-12-31',
+                merchant: 'Priority Pass'
+            }
+        ];
+
+        // DOM Elements
+        const cardForm = document.getElementById('cardForm');
+        const offersSection = document.getElementById('offersSection');
+        const offersGrid = document.getElementById('offersGrid');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const searchOffers = document.getElementById('searchOffers');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const loginBtn = document.getElementById('loginBtn');
+        const signupBtn = document.getElementById('signupBtn');
+
+        // Show loading overlay
+        function showLoading() {
+            loadingOverlay.classList.add('active');
+        }
+
+        // Hide loading overlay
+        function hideLoading() {
+            loadingOverlay.classList.remove('active');
+        }
+
+        // Function to create offer card HTML
+        function createOfferCard(offer) {
+            return `
+                <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition duration-300">
+                    <div class="flex items-center mb-4">
+                        <i class="bi bi-tag-fill text-blue-600 text-xl mr-2"></i>
+                        <h4 class="text-lg font-semibold text-gray-800">${offer.title}</h4>
+                    </div>
+                    <p class="text-gray-600 mb-4">${offer.description}</p>
+                    <div class="flex justify-between items-center text-sm text-gray-500">
+                        <span><i class="bi bi-shop mr-1"></i>${offer.merchant}</span>
+                        <span><i class="bi bi-calendar-event mr-1"></i>Valid till ${offer.validUntil}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Function to display offers
+        function displayOffers(offers) {
+            offersGrid.innerHTML = '';
+            offers.forEach(offer => {
+                offersGrid.innerHTML += createOfferCard(offer);
+            });
+        }
+
+        // Handle form submission
+        cardForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const cardNumber = document.getElementById('cardNumber').value;
+            const mobileNumber = document.getElementById('mobileNumber').value;
+
+            if (cardNumber.length !== 6) {
+                alert('Please enter the first 6 digits of your card number');
+                return;
+            }
+
+            showLoading();
+
+            try {
+                // Simulate API call
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                // Show offers section
+                offersSection.classList.remove('hidden');
+                displayOffers(sampleOffers);
+                
+                // Scroll to offers section
+                offersSection.scrollIntoView({ behavior: 'smooth' });
+            } catch (error) {
+                alert('An error occurred. Please try again.');
+            } finally {
+                hideLoading();
+            }
+        });
+
+        // Handle category filter
+        categoryFilter.addEventListener('change', () => {
+            const selectedCategory = categoryFilter.value;
+            const searchTerm = searchOffers.value.toLowerCase();
+            let filteredOffers = sampleOffers;
+
+            if (selectedCategory) {
+                filteredOffers = filteredOffers.filter(offer => 
+                    offer.category === selectedCategory
+                );
+            }
+
+            if (searchTerm) {
+                filteredOffers = filteredOffers.filter(offer =>
+                    offer.title.toLowerCase().includes(searchTerm) ||
+                    offer.description.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            displayOffers(filteredOffers);
+        });
+
+        // Handle search
+        searchOffers.addEventListener('input', () => {
+            const searchTerm = searchOffers.value.toLowerCase();
+            const selectedCategory = categoryFilter.value;
+            let filteredOffers = sampleOffers;
+
+            if (searchTerm) {
+                filteredOffers = filteredOffers.filter(offer =>
+                    offer.title.toLowerCase().includes(searchTerm) ||
+                    offer.description.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            if (selectedCategory) {
+                filteredOffers = filteredOffers.filter(offer => 
+                    offer.category === selectedCategory
+                );
+            }
+
+            displayOffers(filteredOffers);
+        });
+
+        // Handle login button click
+        loginBtn.addEventListener('click', () => {
+            alert('Login functionality would be implemented here');
+        });
+
+        // Handle signup button click
+        signupBtn.addEventListener('click', () => {
+            alert('Signup functionality would be implemented here');
+        });
+
+        // Input validation for card number
+        document.getElementById('cardNumber').addEventListener('input', function(e) {
+            if (this.value.length > 6) {
+                this.value = this.value.slice(0, 6);
+            }
+        });
+    </script>
+<script>document.body.addEventListener('wheel', e => { if (!e.ctrlKey) return; e.preventDefault(); return }, { passive: false })</script>
+	</body>
+</html>
